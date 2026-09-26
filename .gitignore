@@ -12,3 +12,5 @@ issues.json
 *.scratch
 *.tmp
 *.temp
+config.bat
+node_modules
