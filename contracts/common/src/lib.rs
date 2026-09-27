@@ -306,3 +306,5 @@ pub mod events;
 pub mod math;
 pub mod nonce;
 pub mod storage;
+#[cfg(any(feature = "telemetry", test))]
+pub mod telemetry;

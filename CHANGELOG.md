@@ -33,6 +33,17 @@ breaking changes bump the **minor** version, and they are called out as such.
   floor, and sends the proceeds to a configured burn address. Admin configures
   it once with `set_buyback_config`; anyone may trigger a swap with
   `execute_buyback` above the configured minimum size.
+- **`common`: standardized read-only telemetry view for frontend dashboards.**
+  New `telemetry` module (`contracts/common/src/telemetry.rs`) defines the
+  canonical `Telemetry` response struct — total/open/closed/disputed/finalized
+  channel counts, active escrow sum, and cumulative fees collected, stamped
+  with the ledger sequence and wall-clock timestamp — plus the
+  `TelemetryProvider` trait and generated `TelemetryClient` so dashboards pull
+  one aggregated snapshot cross-contract. The view is strictly read-only:
+  no writes, no TTL extension, no authorization, and O(1) targeted storage
+  reads (one `instance().get` per field, never record iteration), so the CPU
+  cost is independent of channel/refund volume. Includes unit, read-only
+  property, and completeness tests.
 - **`common` (issue #436): constant-time cryptographic comparison.** New
   `constant_time_eq(a, b)` helper (`contracts/common/src/constant_time.rs`)
   compares byte slices without short-circuiting: every byte and the length
